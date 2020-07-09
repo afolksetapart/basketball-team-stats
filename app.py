@@ -97,7 +97,7 @@ def check_value(value, condition):
             if value > condition:
                 raise ValueError
             break
-        except ValueError as err:
+        except ValueError:
             value = input(
                 f"\nError: Please enter a valid selection from the menu above >  ")
             continue
