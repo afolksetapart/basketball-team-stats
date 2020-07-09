@@ -28,7 +28,9 @@ def balance_teams(clean_data):
         player for player in clean_data if player['experience'] == False]
     if len(experienced) != len(inexperienced):
         sys.exit(
-            f"Unbalanced experience among players.\nYou currently have {len(experienced)} experienced players and {len(inexperienced)} inexperienced players.\nPlease adjust roster.")
+            f"""Unbalanced experience among players. 
+            You currently have {len(experienced)} experienced players and {len(inexperienced)} inexperienced players.
+            Please adjust roster.""")
     else:
         full_teams = populate_teams(experienced, inexperienced)
         return format_teams(full_teams)
@@ -51,7 +53,8 @@ def populate_teams(exp_list, inexp_list):
         return teams
     else:
         sys.exit(
-            f"Uneven number of players per team({round(players_per_team, 1)}), unable to distribute evenly. Please adjust roster.")
+            f"""Uneven number of players per team({round(players_per_team, 1)}.
+            Please adjust roster.""")
 
 
 def format_teams(teams):
@@ -72,19 +75,33 @@ def display_stats(selection):
     print("Players: \n")
     for player in team:
         guardians = ", ".join(player['guardians'])
-        print(f"{player['name']}\n  [Guardians {guardians}]")
+        print(f"{player['name']}\n  [Guardians: {guardians}]")
     print(f"\nTotal Players: {len(team)}")
     print(
-        f"\nTotal Experienced: {len([player for player in team if player['experience'] == True])}")
+        f"Total Experienced: {len([player for player in team if player['experience'] == True])}")
     print(
-        f"\nTotal Inexperienced: {len([player for player in team if player['experience'] == False])}")
-    print(f"\nAverage Height: {round(avg_height, 1)} inches")
+        f"Total Inexperienced: {len([player for player in team if player['experience'] == False])}")
+    print(f"Average Height: {round(avg_height, 1)} inches")
 
 
 def start_program():
     clean_player_data = clean_data()
     teams_data = balance_teams(clean_player_data)
     return teams_data
+
+
+def check_value(value, condition):
+    while True:
+        try:
+            value = int(value)
+            if value > condition:
+                raise ValueError
+            break
+        except ValueError as err:
+            value = input(
+                f"\nError: Please enter a valid selection from the menu above >  ")
+            continue
+    return value
 
 
 if __name__ == "__main__":
@@ -103,11 +120,10 @@ if __name__ == "__main__":
         1 Display Team Stats 
 
         2 Quit
-
         """))
 
-        main_menu_selection = int(
-            input("Please select from the above menu >  "))
+        main_menu_selection = input("Please select from the above menu >  ")
+        main_menu_selection = check_value(main_menu_selection, 2)
 
         if main_menu_selection == 1:
             print(textwrap.dedent(""" 
@@ -123,14 +139,16 @@ if __name__ == "__main__":
                     break
                 i += 1
 
-            sub_menu_selection = int(
-                input("Please select a team >  "))
+            sub_menu_selection = input("Please select a team >  ")
+            sub_menu_selection = check_value(sub_menu_selection, len(TEAMS))
 
             print(textwrap.dedent(f""" 
             -\/\/\/- {get_team_name(sub_menu_selection).upper()} STATS -\/\/\/-
             """))
 
             display_stats(sub_menu_selection)
+
+            input("\nPress Enter to continue...")
 
         if main_menu_selection == 2:
             sys.exit()
