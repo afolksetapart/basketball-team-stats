@@ -107,7 +107,7 @@ if __name__ == "__main__":
             sub_menu_selection = int(
                 input("Please select a team >  "))
 
-            display_player_names()
+            # display_player_names()
 
         if main_menu_selection == 2:
             sys.exit()
