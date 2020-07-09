@@ -1,5 +1,8 @@
 import constants
 import copy
+import pydoc
+import textwrap
+import statistics
 import sys
 
 TEAMS = constants.TEAMS
@@ -45,7 +48,6 @@ def populate_teams(exp_list, inexp_list):
             while len(team) < players_per_team:
                 team.append(exp_list.pop())
                 team.append(inexp_list.pop())
-        print(num_players % num_teams)
         return teams
     else:
         sys.exit(
@@ -58,10 +60,25 @@ def format_teams(teams):
     return teams_dict
 
 
-def display_player_names(team):
-    print(f"{TEAMS[(team -1)]}")
+def get_team_name(selection):
+    return TEAMS[(selection - 1)]
+
+
+def display_stats(selection):
+    team_name = get_team_name(selection)
+    team = new_teams[team_name]
+    avg_height = statistics.mean([player['height'] for player in team])
+
+    print("Players: \n")
     for player in team:
-        print(f"\n{player['name']}")
+        guardians = ", ".join(player['guardians'])
+        print(f"{player['name']}\n  [Guardians {guardians}]")
+    print(f"\nTotal Players: {len(team)}")
+    print(
+        f"\nTotal Experienced: {len([player for player in team if player['experience'] == True])}")
+    print(
+        f"\nTotal Inexperienced: {len([player for player in team if player['experience'] == False])}")
+    print(f"\nAverage Height: {round(avg_height, 1)} inches")
 
 
 def start_program():
@@ -73,32 +90,34 @@ def start_program():
 if __name__ == "__main__":
     new_teams = start_program()
 
-    print("""
+    print(textwrap.dedent("""
     ***BASKETBALL TEAM ASSIGNMENT & STATS TOOL***
 
     [All players have been successfuly assigned to a team]
-    """)
+    """))
 
     while True:
-        print("""
+        print(textwrap.dedent("""
         -\/\/\/- MENU -\/\/\/-
 
         1 Display Team Stats 
+
         2 Quit
 
-        """)
+        """))
 
         main_menu_selection = int(
             input("Please select from the above menu >  "))
 
         if main_menu_selection == 1:
-            print(""" 
+            print(textwrap.dedent(""" 
             -\/\/\/- TEAMS -\/\/\/-
-            """)
+            """))
 
             i = 1
             for team in TEAMS:
-                print(f"""{i} {team}""")
+                print(textwrap.dedent(f"""
+                {i} {team}"""))
                 if (i == len(TEAMS)):
                     print("\n")
                     break
@@ -107,7 +126,11 @@ if __name__ == "__main__":
             sub_menu_selection = int(
                 input("Please select a team >  "))
 
-            # display_player_names()
+            print(textwrap.dedent(f""" 
+            -\/\/\/- {get_team_name(sub_menu_selection).upper()} STATS -\/\/\/-
+            """))
+
+            display_stats(sub_menu_selection)
 
         if main_menu_selection == 2:
             sys.exit()
