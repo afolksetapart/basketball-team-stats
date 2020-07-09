@@ -27,7 +27,7 @@ def balance_teams(clean_data):
         player for player in clean_data if player['experience'] == False]
     if len(experienced) != len(inexperienced):
         sys.exit(
-            f"""Unbalanced experience among players. 
+            f"""Unbalanced experience among players: 
             You currently have {len(experienced)} experienced players and {len(inexperienced)} inexperienced players.
             Please adjust roster.""")
     else:
@@ -52,7 +52,7 @@ def populate_teams(exp_list, inexp_list):
         return teams
     else:
         sys.exit(
-            f"""Uneven number of players per team({round(players_per_team, 1)}.
+            f"""Uneven number of players per team ({round(players_per_team, 1)}):
             Please adjust roster.""")
 
 
