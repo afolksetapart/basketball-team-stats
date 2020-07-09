@@ -1,6 +1,5 @@
 import constants
 import copy
-import pydoc
 import textwrap
 import statistics
 import sys
