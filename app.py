@@ -7,7 +7,7 @@ PLAYERS = constants.PLAYERS
 
 
 def clean_data():
-    data_copy = constants.PLAYERS.copy()
+    data_copy = PLAYERS.copy()
     for player in data_copy:
         player['height'] = int(player['height'][:2])
         player['guardians'] = player['guardians'].split(" and ")
@@ -32,14 +32,14 @@ def balance_teams(clean_data):
 
 
 def populate_teams(exp_list, inexp_list):
-    num_players = len(constants.PLAYERS)
-    num_teams = len(constants.TEAMS)
+    num_players = len(PLAYERS)
+    num_teams = len(TEAMS)
     players_per_team = (num_players/num_teams)
 
     if (num_players % num_teams == 0):
         teams = []
         int(players_per_team)
-        for team_name in constants.TEAMS:
+        for team_name in TEAMS:
             teams.append([])
         for team in teams:
             while len(team) < players_per_team:
@@ -53,13 +53,13 @@ def populate_teams(exp_list, inexp_list):
 
 
 def format_teams(teams):
-    team_names_copy = constants.TEAMS.copy()
+    team_names_copy = TEAMS.copy()
     teams_dict = {key: value for key, value in zip(team_names_copy, teams)}
     return teams_dict
 
 
 def display_player_names(team):
-    print(f"{constants.TEAMS[(team -1)]}")
+    print(f"{TEAMS[(team -1)]}")
     for player in team:
         print(f"\n{player['name']}")
 
@@ -97,9 +97,9 @@ if __name__ == "__main__":
             """)
 
             i = 1
-            for team in constants.TEAMS:
-                print(f"""        {i} {team}""")
-                if (i == len(constants.TEAMS)):
+            for team in TEAMS:
+                print(f"""{i} {team}""")
+                if (i == len(TEAMS)):
                     print("\n")
                     break
                 i += 1
