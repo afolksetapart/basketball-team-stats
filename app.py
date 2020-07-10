@@ -9,6 +9,12 @@ PLAYERS = constants.PLAYERS
 
 
 def clean_data():
+    """Makes a copy of and cleans PLAYERS data from any file 
+    formatted like constants.py
+
+    Returns:
+        List: A list of dictionaries containing clean player data
+    """
     data_copy = PLAYERS.copy()
     for player in data_copy:
         player['height'] = int(player['height'][:2])
@@ -21,6 +27,20 @@ def clean_data():
 
 
 def balance_teams(clean_data):
+    """Evenly sorts players into experienced, inexperienced lists 
+    (if possible, else sys.exit()) and calls populate_teams()
+    passing lists as arguments with return value stored in 
+    full_teams and then passed to format_teams()
+
+    Args:
+        clean_data (list): Clean player data from any file 
+        formatted like constants.py
+
+    Returns:
+        Dict: Output of format_teams(full_teams) as 
+        dict with team name as key and team players 
+        (list of dicts) as value 
+    """
     experienced = [
         player for player in clean_data if player['experience'] == True]
     inexperienced = [
@@ -36,6 +56,18 @@ def balance_teams(clean_data):
 
 
 def populate_teams(exp_list, inexp_list):
+    """Determines even number of players per team (else calls 
+    sys.exit()) and distributes even number of experienced, 
+    inexperienced players to each team list
+
+    Args:
+        exp_list (list): List of experienced players as dicts
+        inexp_list (list): List of inexperienced players as dicts
+
+    Returns:
+        List: A list containing multiple lists of player dicts for 
+        each team
+    """
     num_players = len(PLAYERS)
     num_teams = len(TEAMS)
     players_per_team = (num_players/num_teams)
@@ -57,16 +89,40 @@ def populate_teams(exp_list, inexp_list):
 
 
 def format_teams(teams):
+    """For each team, assigns team name from constants.py as 
+    key to dict, assigns value as list containing player dicts
+
+    Args:
+        teams (list): List containing lists of player dicts
+
+    Returns:
+        Dict: A dict with each team name as a key, and list 
+        of players dicts for that team as value
+    """
     team_names_copy = TEAMS.copy()
     teams_dict = {key: value for key, value in zip(team_names_copy, teams)}
     return teams_dict
 
 
 def get_team_name(selection):
+    """Gets team name based on user selection from teams menu
+
+    Args:
+        selection (int): User selection from teams menu
+
+    Returns:
+        String: Team name
+    """
     return TEAMS[(selection - 1)]
 
 
 def display_stats(selection):
+    """Formats and displays stats for any team in teamns manu
+    based on user input
+
+    Args:
+        selection (int): User selection from teams menu
+    """
     team_name = get_team_name(selection)
     team = new_teams[team_name]
     avg_height = statistics.mean([player['height'] for player in team])
@@ -84,12 +140,34 @@ def display_stats(selection):
 
 
 def start_program():
+    """Calls clean_data() followed by balance_teams() (passing in
+    the return of clean_data() as argument)
+
+    Returns:
+        Dict: A dict containing populated and sorted teams
+    """
     clean_player_data = clean_data()
     teams_data = balance_teams(clean_player_data)
     return teams_data
 
 
 def check_value(value, condition):
+    """Converts user input to int, checks that user inputed a 
+    valid selection from current menu, else raises ValueError 
+    and prompts for valid selection
+
+    Args:
+        value (string): User selection from menu
+        condition (int): Length of menu
+
+    Raises:
+        ValueError: Prompts user to input valid selection from
+        menu if input cannot be converted to int or int is
+        greater than menu length
+
+    Returns:
+        Int: User selection from menu
+    """
     while True:
         try:
             value = int(value)
