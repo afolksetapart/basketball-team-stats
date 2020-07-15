@@ -15,7 +15,7 @@ def clean_data():
     Returns:
         List: A list of dictionaries containing clean player data
     """
-    data_copy = PLAYERS.copy()
+    data_copy = copy.deepcopy(PLAYERS)
     for player in data_copy:
         player['height'] = int(player['height'][:2])
         player['guardians'] = player['guardians'].split(" and ")
@@ -171,7 +171,7 @@ def check_value(value, condition):
     while True:
         try:
             value = int(value)
-            if value > condition:
+            if value > condition or value <= 0:
                 raise ValueError
             break
         except ValueError:
