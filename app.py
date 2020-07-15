@@ -160,11 +160,6 @@ def check_value(value, condition):
         value (string): User selection from menu
         condition (int): Length of menu
 
-    Raises:
-        ValueError: Prompts user to input valid selection from
-        menu if input cannot be converted to int or int is
-        greater than menu length
-
     Returns:
         Int: User selection from menu
     """
